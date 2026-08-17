@@ -1,0 +1,13 @@
+INSTRUÇÕES DE IMPRESSÃO
+
+1. Use papel A4, orientação retrato.
+2. Imprima as frentes e os versos em modo frente e verso, com borda longa.
+3. Ajuste escala para 100% e desative qualquer "fit to page".
+4. O arquivo baralho-frentes-A4.pdf contém as faces das cartas.
+5. O arquivo baralho-versos-QR-A4.pdf contém os versos com QR Code para cada carta.
+6. A medida das cartas é aproximadamente 63 x 88 mm.
+7. O layout coloca 9 cartas por folha.
+8. Para a impressão frente e verso na borda longa, escolha a opção:
+   - frente: na parte de cima da página
+   - verso: espelhado na página seguinte, com borda longa
+9. Recomenda-se usar papel cartão ou papel fotográfico 250-300 g/m² para maior qualidade.

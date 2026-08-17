@@ -1,13 +1,151 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personalidades e Cartas de Baralho</title>
-    <link rel="stylesheet" href="assets/styles.css">
-</head>
-<body>
-    <div id="app"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baralho dos Arquétipos</title>
+    <meta
+      name="description"
+      content="Baralho dos Arquétipos — explore 54 cartas, leitura masculina e feminina, busca por carta e QR Codes para cada arquétipo."
+    />
+    <meta property="og:title" content="Baralho dos Arquétipos" />
+    <meta
+      property="og:description"
+      content="Baralho premium com 54 cartas, interpretação por gênero, busca e QR Codes para imprimir ou compartilhar."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="assets/cards/copas-a.png" />
+    <link rel="stylesheet" href="assets/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand" aria-label="Baralho dos Arquétipos">
+          <span class="brand-mark">♠♥</span>
+          <div>
+            <span class="eyebrow">Arquetipos · Introspecção · Jogo</span>
+            <h1>BARALHO DOS ARQUÉTIPOS</h1>
+          </div>
+        </div>
+
+        <div class="gender-switch" aria-label="Seleção de gênero">
+          <button class="gender-btn" type="button" data-gender="masculino" aria-pressed="false">
+            Masculino
+          </button>
+          <button class="gender-btn" type="button" data-gender="feminino" aria-pressed="false">
+            Feminino
+          </button>
+        </div>
+      </header>
+
+      <main class="main-layout">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="lede">
+              Um baralho de arquétipos para refletir sobre padrões emocionais, estratégicos,
+              de liderança e de ação.
+            </p>
+            <div class="stats" aria-label="Estatísticas do baralho">
+              <div class="mini-stat">
+                <strong>52</strong>
+                <span>cartas</span>
+              </div>
+              <div class="mini-stat">
+                <strong>2</strong>
+                <span>Coringas</span>
+              </div>
+              <div class="mini-stat">
+                <strong>54</strong>
+                <span>Total</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button id="randomCardBtn" class="primary-btn" type="button">Tirar uma carta</button>
+            <button id="resetFiltersBtn" class="secondary-btn" type="button">Ver baralho completo</button>
+          </div>
+        </section>
+
+        <section class="toolbar" aria-label="Busca e filtros do baralho">
+          <label class="search-box" for="searchInput">
+            <span class="search-label">Buscar</span>
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Buscar carta, arquétipo ou naipe..."
+              aria-label="Buscar carta"
+            />
+          </label>
+
+          <div class="suit-filters" aria-label="Filtrar por naipe">
+            <button class="suit-btn is-active" type="button" data-suit="todos">Todos</button>
+            <button class="suit-btn" type="button" data-suit="copas">Copas</button>
+            <button class="suit-btn" type="button" data-suit="ouros">Ouros</button>
+            <button class="suit-btn" type="button" data-suit="paus">Paus</button>
+            <button class="suit-btn" type="button" data-suit="espadas">Espadas</button>
+            <button class="suit-btn" type="button" data-suit="coringas">Coringas</button>
+          </div>
+        </section>
+
+        <section id="cardGrid" class="card-grid" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <div id="detailModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <button id="closeModalBtn" class="close-btn" type="button" aria-label="Fechar carta">×</button>
+
+        <div class="detail-layout">
+          <div class="detail-visual">
+            <img id="detailImage" src="" alt="Carta do baralho" />
+          </div>
+
+          <div class="detail-content">
+            <div id="detailSuitBadge" class="detail-suit-badge"></div>
+            <h2 id="detailTitle">Carta</h2>
+            <p id="detailDescription" class="detail-description"></p>
+
+            <div class="detail-meta">
+              <div class="meta-box">
+                <span>Força</span>
+                <strong id="detailStrength"></strong>
+              </div>
+              <div class="meta-box">
+                <span>Risco</span>
+                <strong id="detailRisk"></strong>
+              </div>
+            </div>
+
+            <div class="detail-qr">
+              <img id="detailQr" src="" alt="QR Code da carta" />
+              <div>
+                <p class="qr-label">QR da carta</p>
+                <p id="detailQrUrl" class="qr-url"></p>
+              </div>
+            </div>
+
+            <div class="detail-actions">
+              <button id="shareCardBtn" class="primary-btn" type="button">Compartilhar esta carta</button>
+              <button id="backToDeckBtn" class="secondary-btn" type="button">Voltar ao baralho</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="genderModal" class="modal hidden" aria-hidden="true">
+      <div class="gender-panel" role="dialog" aria-modal="true" aria-labelledby="genderTitle">
+        <p class="gender-kicker">Leitura</p>
+        <h2 id="genderTitle">Escolha o gênero</h2>
+        <p class="gender-copy">O conteúdo masculino e feminino é diferente. Selecione a interpretação desejada.</p>
+        <div class="gender-actions">
+          <button class="primary-btn" type="button" data-gender-select="masculino">Masculino</button>
+          <button class="secondary-btn" type="button" data-gender-select="feminino">Feminino</button>
+        </div>
+      </div>
+    </div>
+
     <script src="src/main.js"></script>
-</body>
+  </body>
 </html>
