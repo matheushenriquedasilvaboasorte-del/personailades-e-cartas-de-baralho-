@@ -1391,16 +1391,52 @@ function renderCards() {
 function createCardElement(card) {
   const cardData = card[currentGender];
   const div = document.createElement('div');
-  div.className = `card-thumb card-${card.suit}`;
+  div.className = `card-catalog card-${card.suit}`;
+  
+  // Truncar descrição para ~60 caracteres
+  const descShort = cardData.description.length > 60 
+    ? cardData.description.substring(0, 60) + '...' 
+    : cardData.description;
+  
   div.innerHTML = `
-    <img src="${card.image}" alt="${cardData.name}" loading="lazy" />
-    <div class="card-info">
-      <div class="card-suit">${card.suitSymbol}</div>
-      <div class="card-rank">${card.rank}</div>
-      <div class="card-name">${cardData.name}</div>
+    <div class="catalog-image">
+      <img src="${card.image}" alt="${cardData.name}" loading="lazy" />
+      <div class="catalog-suit-badge">${card.suitSymbol} ${card.suitLabel}</div>
+    </div>
+    
+    <div class="catalog-info">
+      <div class="catalog-header">
+        <h3 class="catalog-name">${cardData.name}</h3>
+        <span class="catalog-rank">${card.rank}</span>
+      </div>
+      
+      <p class="catalog-description">${descShort}</p>
+      
+      <div class="catalog-attributes">
+        <div class="attr-box">
+          <span class="attr-label">💪 Força</span>
+          <span class="attr-value">${cardData.strength}</span>
+        </div>
+        <div class="attr-box">
+          <span class="attr-label">⚠️ Risco</span>
+          <span class="attr-value">${cardData.risk}</span>
+        </div>
+      </div>
+      
+      <div class="catalog-qr">
+        <img src="${card.qrCode}" alt="QR Code: ${cardData.name}" title="Escaneie para abrir" />
+      </div>
+      
+      <button class="catalog-btn" type="button">Ver Completo →</button>
     </div>
   `;
-  div.addEventListener('click', () => openCardDetail(card.id));
+  
+  div.addEventListener('click', (e) => {
+    if (e.target.classList.contains('catalog-btn') || !e.target.closest('.catalog-qr')) {
+      openCardDetail(card.id);
+    }
+  });
+  
   return div;
 }
 
